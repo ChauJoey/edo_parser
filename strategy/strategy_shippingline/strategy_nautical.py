@@ -1,0 +1,54 @@
+from typing import Dict, List
+
+from utils.regex_utils import RegexUtils
+from utils.text_utils import TextUtils
+from ..base_strategy import BaseStrategy
+
+
+class NauticalStrategy(BaseStrategy):
+    """Extracts container, PIN and empty-return depot from Nautical delivery orders."""
+
+    name = "NAUTICAL"
+    keywords = [
+        "NAUTICAL SHIPPING",
+        "NAUTICAL SHIPPING PTY",
+        "NAUTICAL SHIP",
+        "NAUTICAL",
+    ]
+
+    def match(self, text: str) -> bool:
+        t = (text or "").upper()
+        return any(keyword in t for keyword in self.keywords)
+
+    @staticmethod
+    def _extract_pin(text: str) -> str:
+        pattern = r"(?=[A-Z0-9]{4,20}\b)[A-Z0-9]*\d[A-Z0-9]*"
+        return RegexUtils.after(text, "PIN", pattern) or ""
+
+    @staticmethod
+    def _extract_yard(text: str) -> str:
+        block = RegexUtils.extract_between(text, "Empty Container to be Returned to", "Type") or ""
+        lines = [line.strip(" :") for line in block.splitlines() if line.strip()]
+        if len(lines) > 4:
+            lines = lines[-4:]
+        return TextUtils.collapse_spaces(" ".join(lines))
+
+    def extract(self, text: str) -> List[Dict[str, str]]:
+        containers = RegexUtils.iso_container_candidates(text)
+        if not containers:
+            return []
+
+        pin = self._extract_pin(text)
+        yard = self._extract_yard(text)
+
+        records: List[Dict[str, str]] = []
+        for container in containers:
+            records.append(
+                {
+                    "Shipping Line": self.name,
+                    "柜号": container,
+                    "PIN": pin,
+                    "还柜场": yard,
+                }
+            )
+        return records

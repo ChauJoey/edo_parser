@@ -1,0 +1,47 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="34">
+            <item index="0" class="java.lang.String" itemvalue="aiohttp" />
+            <item index="1" class="java.lang.String" itemvalue="oauth2client" />
+            <item index="2" class="java.lang.String" itemvalue="scp" />
+            <item index="3" class="java.lang.String" itemvalue="gspread" />
+            <item index="4" class="java.lang.String" itemvalue="pyppeteer" />
+            <item index="5" class="java.lang.String" itemvalue="numpy" />
+            <item index="6" class="java.lang.String" itemvalue="gspread_dataframe" />
+            <item index="7" class="java.lang.String" itemvalue="Requests" />
+            <item index="8" class="java.lang.String" itemvalue="pandas" />
+            <item index="9" class="java.lang.String" itemvalue="quart" />
+            <item index="10" class="java.lang.String" itemvalue="paramiko" />
+            <item index="11" class="java.lang.String" itemvalue="aiohttp_socks" />
+            <item index="12" class="java.lang.String" itemvalue="pytz" />
+            <item index="13" class="java.lang.String" itemvalue="openpyxl" />
+            <item index="14" class="java.lang.String" itemvalue="Flask" />
+            <item index="15" class="java.lang.String" itemvalue="PyJWT" />
+            <item index="16" class="java.lang.String" itemvalue="SQLAlchemy" />
+            <item index="17" class="java.lang.String" itemvalue="requests" />
+            <item index="18" class="java.lang.String" itemvalue="loguru" />
+            <item index="19" class="java.lang.String" itemvalue="APScheduler" />
+            <item index="20" class="java.lang.String" itemvalue="DateTime" />
+            <item index="21" class="java.lang.String" itemvalue="redis" />
+            <item index="22" class="java.lang.String" itemvalue="psutil" />
+            <item index="23" class="java.lang.String" itemvalue="fastapi" />
+            <item index="24" class="java.lang.String" itemvalue="user-agents" />
+            <item index="25" class="java.lang.String" itemvalue="sqlglot" />
+            <item index="26" class="java.lang.String" itemvalue="PyMySQL" />
+            <item index="27" class="java.lang.String" itemvalue="pydantic-validation-decorator" />
+            <item index="28" class="java.lang.String" itemvalue="asyncmy" />
+            <item index="29" class="java.lang.String" itemvalue="passlib" />
+            <item index="30" class="java.lang.String" itemvalue="Pillow" />
+            <item index="31" class="java.lang.String" itemvalue="pytest" />
+            <item index="32" class="java.lang.String" itemvalue="PyQt6" />
+            <item index="33" class="java.lang.String" itemvalue="PyQt6-Qt6" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
