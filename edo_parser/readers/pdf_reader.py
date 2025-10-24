@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from pathlib import Path
-
 from edo_parser.core.document_reader import DocumentContent, DocumentReadError, DocumentReader
 from edo_parser.infrastructure.pdf_text_extractor import PdfExtractionError, PdfTextExtractor
 
@@ -27,3 +25,9 @@ class PdfDocumentReader(DocumentReader):
             raise DocumentReadError(str(exc)) from exc
 
         return DocumentContent(text=text, source=source)
+
+
+
+
+
+

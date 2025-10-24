@@ -4,32 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad01af55-c649-48d5-887f-0b46720e0f52" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/edo_parser.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractor/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractor/normalizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extractor/strategy_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reader/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reader/pdf_reader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reader/source_provider.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/base_strategy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/common_patterns.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy_generic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy_shippingline/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy_shippingline/strategy_cma.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/file_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/regex_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/text_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/workflow/workflow_manager.py" afterDir="false" />
+    <list default="true" id="ad01af55-c649-48d5-887f-0b46720e0f52" name="更改" comment="1. 增加了google drive 和 google 表格两大模块&#10;&#10;2. 实现了一系列的google方法CURD&#10;&#10;3. 封装层在这里google_base/GoogleDrive/DriveApp.py&#10;直接用里面的方法就行 里面有详细注释&#10;    提供能力（仅 4+2 个）&#10;    ---------------------&#10;    1) list_input_files()          列出 Input 目录全部文件（默认只取 PDF）&#10;    2) get_file_id_by_name()       在 Input 目录按名字取 fileId&#10;    3) move_to_output()            从 Input 移动到 Output（可选改名）&#10;    4) move_to_fail()              从 Input 移动到 Fail（可选改名）&#10;    5) download_file_bytes()       下载文件为内存 bytes（供 Reader 使用）&#10;    6) iter_input_pdf_bytes()      直接遍历 Input PDF，返回 (DriveFile, bytes)&#10;&#10;4. reader/pdf_reader.py&#10;增加了读内存的方法（边下边读）&#10;&#10;5. run_test.py&#10;测试了 可以正常读&#10;&#10;6. 字典填回表格 我要看到字典再实现">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +23,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ChauJoey/edo_parser",
+    "accountId": "0011a5b6-ae0f-413e-b171-3b4643b9df23"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -57,11 +40,36 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python 测试.Python tests in test_pdf_reader_bytes.py.executor": "Run",
+    "Python.DriveApp.executor": "Run",
+    "Python.DriveCruder.executor": "Run",
+    "Python.GoogleConfig.executor": "Run",
+    "Python.GoogleDriveClient.executor": "Run",
+    "Python.GoogleSheetClient.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.run_test.executor": "Run",
     "Python.workflow_manager.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Alex Cheng/Desktop/edo_parser/utils",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\utils" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\google_base" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\Decorators" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\Jsons" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\google_base\GoogleDrive" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\google_base\GoogleSheet" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser" />
+      <recent name="C:\Users\Alex Cheng\Desktop\edo_parser\google_base" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -78,6 +86,19 @@
       <option name="presentableId" value="Default" />
       <updated>1755684442839</updated>
     </task>
+    <task id="LOCAL-00001" summary="1. 增加了google drive 和 google 表格两大模块&#10;&#10;2. 实现了一系列的google方法CURD&#10;&#10;3. 封装层在这里google_base/GoogleDrive/DriveApp.py&#10;直接用里面的方法就行 里面有详细注释&#10;    提供能力（仅 4+2 个）&#10;    ---------------------&#10;    1) list_input_files()          列出 Input 目录全部文件（默认只取 PDF）&#10;    2) get_file_id_by_name()       在 Input 目录按名字取 fileId&#10;    3) move_to_output()            从 Input 移动到 Output（可选改名）&#10;    4) move_to_fail()              从 Input 移动到 Fail（可选改名）&#10;    5) download_file_bytes()       下载文件为内存 bytes（供 Reader 使用）&#10;    6) iter_input_pdf_bytes()      直接遍历 Input PDF，返回 (DriveFile, bytes)&#10;&#10;4. reader/pdf_reader.py&#10;增加了读内存的方法（边下边读）&#10;&#10;5. run_test.py&#10;测试了 可以正常读&#10;&#10;6. 字典填回表格 我要看到字典再实现">
+      <option name="closed" value="true" />
+      <created>1761326208388</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761326208388</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1. 增加了google drive 和 google 表格两大模块&#10;&#10;2. 实现了一系列的google方法CURD&#10;&#10;3. 封装层在这里google_base/GoogleDrive/DriveApp.py&#10;直接用里面的方法就行 里面有详细注释&#10;    提供能力（仅 4+2 个）&#10;    ---------------------&#10;    1) list_input_files()          列出 Input 目录全部文件（默认只取 PDF）&#10;    2) get_file_id_by_name()       在 Input 目录按名字取 fileId&#10;    3) move_to_output()            从 Input 移动到 Output（可选改名）&#10;    4) move_to_fail()              从 Input 移动到 Fail（可选改名）&#10;    5) download_file_bytes()       下载文件为内存 bytes（供 Reader 使用）&#10;    6) iter_input_pdf_bytes()      直接遍历 Input PDF，返回 (DriveFile, bytes)&#10;&#10;4. reader/pdf_reader.py&#10;增加了读内存的方法（边下边读）&#10;&#10;5. run_test.py&#10;测试了 可以正常读&#10;&#10;6. 字典填回表格 我要看到字典再实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. 增加了google drive 和 google 表格两大模块&#10;&#10;2. 实现了一系列的google方法CURD&#10;&#10;3. 封装层在这里google_base/GoogleDrive/DriveApp.py&#10;直接用里面的方法就行 里面有详细注释&#10;    提供能力（仅 4+2 个）&#10;    ---------------------&#10;    1) list_input_files()          列出 Input 目录全部文件（默认只取 PDF）&#10;    2) get_file_id_by_name()       在 Input 目录按名字取 fileId&#10;    3) move_to_output()            从 Input 移动到 Output（可选改名）&#10;    4) move_to_fail()              从 Input 移动到 Fail（可选改名）&#10;    5) download_file_bytes()       下载文件为内存 bytes（供 Reader 使用）&#10;    6) iter_input_pdf_bytes()      直接遍历 Input PDF，返回 (DriveFile, bytes)&#10;&#10;4. reader/pdf_reader.py&#10;增加了读内存的方法（边下边读）&#10;&#10;5. run_test.py&#10;测试了 可以正常读&#10;&#10;6. 字典填回表格 我要看到字典再实现" />
   </component>
 </project>
