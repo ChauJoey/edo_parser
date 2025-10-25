@@ -88,17 +88,21 @@ class DriveApp:
         Returns:
             文件列表（DriveFile），字段为常用轻量视图。
         """
-        files: List[Dict] = self._drv.list_files_in_folder(self._input_id, mime_type=mime_type)
-        return [
-            DriveFile(
-                id=f.get("id"),
-                name=f.get("name", ""),
-                mimeType=f.get("mimeType"),
-                createdTime=f.get("createdTime"),
-                parents=f.get("parents"),
-            )
+        return self.list_files_in_folder(self._input_id, mime_type=mime_type)
+
+    def list_files_in_folder(self, folder_or_id: str, *, mime_type: Optional[str] = "application/pdf") -> List[DriveFile]:
+        if self._drv.is_folder(folder_or_id):
+            files: List[Dict] = self._drv.list_files_in_folder(folder_or_id, mime_type=mime_type)
+        else:
+            meta = self._drv.get_file_meta(folder_or_id, fields="id,name,mimeType,parents,createdTime")
+            files = [meta]
+
+        drive_files = [
+            self._to_drive_file(f)
             for f in files
+            if self._matches_mime(f, mime_type)
         ]
+        return drive_files
 
     def get_file_id_by_name(self, name: str, *, mime_type: Optional[str] = None) -> Optional[str]:
         """
@@ -142,9 +146,33 @@ class DriveApp:
         Yields:
             (DriveFile, data) 二元组，其中 data 为文件字节流。
         """
-        for f in self.list_input_files(mime_type="application/pdf"):
+        yield from self.iter_pdf_bytes_in_folder(self._input_id, mime_type="application/pdf")
+
+    def iter_pdf_bytes_in_folder(self, folder_or_id: str, *, mime_type: str = "application/pdf") -> Iterator[Tuple[DriveFile, bytes]]:
+        for f in self.list_files_in_folder(folder_or_id, mime_type=mime_type):
             data = self.download_file_bytes(f.id)
             yield f, data
+
+    def _to_drive_file(self, payload: Dict) -> DriveFile:
+        return DriveFile(
+            id=payload.get("id"),
+            name=payload.get("name", ""),
+            mimeType=payload.get("mimeType"),
+            createdTime=payload.get("createdTime"),
+            parents=payload.get("parents"),
+        )
+
+    @staticmethod
+    def _matches_mime(payload: Dict, mime_type: Optional[str]) -> bool:
+        if not mime_type:
+            return True
+        current = (payload.get("mimeType") or "").lower()
+        if current == mime_type.lower():
+            return True
+        name = (payload.get("name") or "").lower()
+        if mime_type == "application/pdf" and name.endswith(".pdf"):
+            return True
+        return False
 
     # ───────────────── 变更（移动/改名） ─────────────────
 

@@ -2,10 +2,16 @@
 from __future__ import annotations
 
 import io
+import os
 import re
-from typing import Iterable, Optional, Dict, List
+from typing import Dict, Iterable, List, Optional
 
-from googleapiclient.http import MediaIoBaseDownload
+try:
+    from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
+except ModuleNotFoundError as exc:
+    raise ModuleNotFoundError(
+        "googleapiclient is missing. Install it via `pip install google-api-python-client`."
+    ) from exc
 
 from Exceptions.InternalException import InternalException
 from google_base.GoogleDrive.GoogleDriveClient import GoogleDriveClient
@@ -138,6 +144,25 @@ class DriveGateway:
             raise InternalException("下载失败。", "DriveGateway:download_bytes", e)
 
     # ---------- 写 ----------
+
+
+    def upload_file(self, file_path: str, *, name: Optional[str] = None,
+                    parent_folder_or_id: Optional[str] = None,
+                    mime_type: str = "application/pdf") -> Dict:
+        target_name = name or os.path.basename(file_path)
+        body: Dict = {"name": target_name}
+        if parent_folder_or_id:
+            body["parents"] = [self._extract_id(parent_folder_or_id)]
+        media = MediaFileUpload(file_path, mimetype=mime_type, resumable=False)
+        try:
+            return self._svc.files().create(
+                body=body,
+                media_body=media,
+                fields="id,name,mimeType,parents,webViewLink",
+                supportsAllDrives=True
+            ).execute()
+        except Exception as e:
+            raise InternalException("Failed to upload file to Google Drive.", "DriveGateway:upload_file", e)
 
     def move_to_folder(self, file_or_id: str, target_folder_or_id: str, *,
                        current_parent_or_id: Optional[str] = None) -> Dict:

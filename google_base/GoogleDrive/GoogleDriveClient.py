@@ -4,7 +4,13 @@ from Decorators.SingletonDecorator import Singleton
 from google_base.GoogleConfig import GoogleConfig
 from Exceptions.InternalException import InternalException
 from typing import List, Dict, Optional
-from googleapiclient.discovery import build
+
+try:
+    from googleapiclient.discovery import build
+except ModuleNotFoundError as exc:
+    raise ModuleNotFoundError(
+        "googleapiclient is missing. Install it via `pip install google-api-python-client`."
+    ) from exc
 
 class GoogleDriveClient(metaclass=Singleton):
     """

@@ -1,7 +1,7 @@
 # drive_cruder.py
 from __future__ import annotations
 
-from typing import Iterable, Optional, Dict, List
+from typing import Dict, Iterable, List, Optional
 
 from Exceptions.InternalException import InternalException
 from google_base.GoogleDrive.DriveGateway import DriveGateway  # 按你的路径改 import
@@ -71,3 +71,14 @@ class DriveCruder:
             except InternalException as e:
                 print(f"[WARN] 移动失败: {f.get('name')} ({f.get('id')}): {e}")
         return moved
+
+
+    def upload_file(self, file_path: str, *, name: Optional[str] = None,
+                    parent_folder_or_id: Optional[str] = None,
+                    mime_type: str = "application/pdf") -> Dict:
+        return self._gw.upload_file(
+            file_path,
+            name=name,
+            parent_folder_or_id=parent_folder_or_id,
+            mime_type=mime_type,
+        )
