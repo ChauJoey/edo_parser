@@ -26,14 +26,18 @@ class WorkflowManager:
 
     def run(self) -> None:
         files = self._list_source_files()
+        results = []
         for drive_file in files:
             data = self.drive_app.download_file_bytes(drive_file.id)
-            new_name = self.process_file(drive_file, data)
+            newName, result = self.process_file(drive_file, data)
             if self.verbose:
-                if new_name:
-                    print(f"[OK] {drive_file.name} -> {new_name}")
+                if newName:
+                    print(f"[OK] {drive_file.name} -> {newName}")
+                    results.append(result)
                 else:
                     print(f"[SKIP] {drive_file.name}")
+                    
+        return results
 
     def process_file(self, drive_file: DriveFile, data: bytes) -> Optional[str]:
         """Process a single Drive PDF and return the new remote name if moved."""
@@ -47,25 +51,25 @@ class WorkflowManager:
             return None
 
         normalized = Normalizer.apply(records)
-        preview_link = self._build_file_view_url(drive_file.id)
+        preview_link = self._build_perview_link(drive_file.id)
         for entry in normalized:
-            entry["file_view_url"] = preview_link
+            entry["Perview Link"] = preview_link
         if self.verbose:
             print(f"[RECORDS:NORM] {drive_file.name} -> {normalized}")
 
         containers = self._unique(
-            [r.get("柜号", "").strip() for r in normalized if r.get("柜号")]
+            [r.get("CTN NUMBER", "").strip() for r in normalized if r.get("CTN NUMBER")]
         )
         if not containers:
             return None
 
-        target = f"{'_'.join(containers)}.pdf"
-        success = self._move_to_output(drive_file.id, target)
+        newName = f"{'_'.join(containers)}.pdf"
+        success = self._move_to_output(drive_file.id, newName)
         if success:
-            return target
+            return newName, normalized
 
         # fallback to Fail folder naming
-        fail_name = f"[FAIL]{target}"
+        fail_name = f"[FAIL]{newName}"
         self._move_to_fail(drive_file.id, fail_name)
         return None
 
@@ -103,7 +107,7 @@ class WorkflowManager:
             print(f"[WARN] Failed to move '{target_name}' to Fail: {exc}")
 
     @staticmethod
-    def _build_file_view_url(file_id: str) -> str:
+    def _build_perview_link(file_id: str) -> str:
         return f"https://drive.google.com/file/d/{file_id}/view"
 
     def _normalize_source(self, source: Optional[str]) -> Optional[str]:

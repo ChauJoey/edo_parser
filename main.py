@@ -20,7 +20,8 @@ def main():
     args = parser.parse_args()
 
     workflow = WorkflowManager(source=args.source, verbose=not args.quiet)
-    workflow.run()
+    results = workflow.run()
+    print(results)
 
 
 if __name__ == "__main__":
