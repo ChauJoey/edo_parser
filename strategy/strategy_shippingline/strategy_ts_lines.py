@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from utils.port_utils import PortExtractor
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
 from ..base_strategy import BaseStrategy
@@ -47,17 +48,20 @@ class TSLINEStrategy(BaseStrategy):
         pin = pin.upper() if pin else ""
         yard = TextUtils.collapse_spaces(yard)
 
-        return [
-            {
-                "Shipping Line": self.name,
-                "\u67dc\u53f7": container,
-                "PIN": pin,
-                "\u8fd8\u67dc\u573a": yard,
-            }
-        ]
+        port = PortExtractor.extract(text)
+
+        record = {
+            "port": port,
+            "Shipping Line": self.name,
+            "\u67dc\u53f7": container,
+            "PIN": pin,
+            "\u8fd8\u67dc\u573a": yard,
+        }
+        return [record]
 
     def _parse_table(self, text: str) -> Dict[str, str]:
         lines = [(line or "").strip() for line in (text or "").splitlines()]
+
         header_indices = []
         for idx, raw in enumerate(lines):
             if raw.upper() == self._TABLE_HEADERS[0]:

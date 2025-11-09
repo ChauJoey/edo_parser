@@ -1,4 +1,5 @@
 from typing import Dict, List
+from utils.port_utils import PortExtractor
 
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
@@ -92,6 +93,7 @@ class ANLStrategy(BaseStrategy):
         return RegexUtils.after(text, "PIN", r"[A-Z0-9]{4,12}") or ""
 
     def _sanitize_yard_block(self, block: str) -> str:
+
         cleaned: List[str] = []
         for raw in (block or "").splitlines():
             stripped = raw.strip()
@@ -182,6 +184,8 @@ class ANLStrategy(BaseStrategy):
         pin = self._extract_pin(text)
         yard = TextUtils.collapse_spaces(self._extract_yard(text))
 
+        port = PortExtractor.extract(text)
+
         results: List[Dict[str, str]] = []
         for container in containers:
             results.append(
@@ -192,4 +196,7 @@ class ANLStrategy(BaseStrategy):
                     "\u8fd8\u67dc\u573a": yard,
                 }
             )
+        for record in results:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return results

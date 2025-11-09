@@ -1,4 +1,5 @@
 from typing import Dict, List
+from utils.port_utils import PortExtractor
 
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
@@ -41,6 +42,9 @@ class NauticalStrategy(BaseStrategy):
         pin = self._extract_pin(text)
         yard = self._extract_yard(text)
 
+
+        port = PortExtractor.extract(text)
+
         records: List[Dict[str, str]] = []
         for container in containers:
             records.append(
@@ -51,4 +55,7 @@ class NauticalStrategy(BaseStrategy):
                     "还柜场": yard,
                 }
             )
+        for record in records:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return records

@@ -33,3 +33,5 @@ EDO解析是一块
 1） 自动放置柜号到对应的SLOT（比如复杂的HUTCHISON）
 2） 自动manifest
 3） 自动订还空 （这个不需要考虑的特别复杂，就当你自己决定好了 到底订去哪， 但是需要考虑RE-DRIECTION需要返回报错）
+
+google drive:https://drive.google.com/drive/folders/1Cs2bNSZNZjYqXTQx2rl5Yju5Itv706nU

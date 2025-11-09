@@ -1,4 +1,5 @@
 from typing import Dict, List
+from utils.port_utils import PortExtractor
 
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
@@ -55,6 +56,7 @@ class OOCLStrategy(BaseStrategy):
         return pin
 
     def _sanitize_yard_block(self, block: str) -> str:
+
         cleaned: List[str] = []
         for raw_line in (block or "").splitlines():
             stripped = raw_line.strip()
@@ -115,6 +117,8 @@ class OOCLStrategy(BaseStrategy):
         if yard:
             yard = RegexUtils.split(r"\b(CONTACT|REMARKS?)\b", yard, flags=RegexUtils.IGNORECASE, maxsplit=1)[0].strip()
 
+        port = PortExtractor.extract(text)
+
         results: List[Dict[str, str]] = []
         for container in containers:
             results.append(
@@ -125,4 +129,7 @@ class OOCLStrategy(BaseStrategy):
                     "\u8fd8\u67dc\u573a": yard,
                 }
             )
+        for record in results:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return results

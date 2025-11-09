@@ -3,6 +3,7 @@ from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
 from .base_strategy import BaseStrategy
 from .common_patterns import COMMON_PATTERNS
+from utils.port_utils import PortExtractor
 
 class GenericStrategy(BaseStrategy):
     """兜底策略：当无匹配船司时使用"""
@@ -23,7 +24,13 @@ class GenericStrategy(BaseStrategy):
             pin = pin.split(":")[-1].strip().lstrip("-")
 
         yard = TextUtils.collapse_spaces(yard)
+
+        port = PortExtractor.extract(text)
+
         results = []
         for c in containers:
             results.append({"柜号": c, "PIN": pin, "还柜场": yard})
+        for record in results:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return results

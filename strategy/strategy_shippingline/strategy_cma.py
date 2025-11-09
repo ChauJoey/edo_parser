@@ -1,4 +1,5 @@
 from typing import Dict, List
+from utils.port_utils import PortExtractor
 
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
@@ -24,7 +25,13 @@ class CMAStrategy(BaseStrategy):
         yard = RegexUtils.after(text, "DEPOT", r"[A-Za-z0-9\-\\s]{3,40}") or ""
         yard = TextUtils.collapse_spaces(yard)
 
+
+        port = PortExtractor.extract(text)
+
         results = []
         for c in containers:
             results.append({"柜号": c, "PIN": pin, "还柜场": yard})
+        for record in results:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return results

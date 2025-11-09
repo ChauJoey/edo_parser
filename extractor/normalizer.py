@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List
 
 from utils.text_utils import TextUtils
@@ -34,6 +36,10 @@ class Normalizer:
         return TextUtils.collapse_spaces(value or "")
 
     @staticmethod
+    def norm_port(value: str) -> str:
+        return TextUtils.collapse_spaces(value or "")
+
+    @staticmethod
     def norm_perview_link(value: str) -> str:
         return (value or "").strip()
 
@@ -43,10 +49,14 @@ class Normalizer:
         for record in records:
             normalised.append(
                 {
-                "Shipping Line": Normalizer.norm_shipping_line(record.get("Shipping Line", "")),
-                "CTN NUMBER": Normalizer.norm_ctn_number(record.get("CTN NUMBER", record.get("柜号", ""))),
-                "EDO PIN": Normalizer.norm_pin(record.get("EDO PIN", record.get("PIN", ""))),
-                "Empty Park": Normalizer.norm_empty_park(record.get("Empty Park", record.get("还柜场", ""))),
-                "Perview Link": Normalizer.norm_perview_link(record.get("Perview Link", "")),
-            })
+                    "Shipping Line": Normalizer.norm_shipping_line(record.get("Shipping Line", "")),
+                    "CTN NUMBER": Normalizer.norm_ctn_number(record.get("CTN NUMBER", record.get("柜号", ""))),
+                    "EDO PIN": Normalizer.norm_pin(record.get("EDO PIN", record.get("PIN", ""))),
+                    "Empty Park": Normalizer.norm_empty_park(record.get("Empty Park", record.get("还柜场", ""))),
+                    "Port of Discharge": Normalizer.norm_port(
+                        record.get("Port of Discharge", record.get("port", record.get("停靠码头", "")))
+                    ),
+                    "Perview Link": Normalizer.norm_perview_link(record.get("Perview Link", "")),
+                }
+            )
         return normalised

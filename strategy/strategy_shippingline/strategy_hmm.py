@@ -1,4 +1,5 @@
 from typing import Dict, List
+from utils.port_utils import PortExtractor
 
 from utils.regex_utils import RegexUtils
 from utils.text_utils import TextUtils
@@ -30,6 +31,7 @@ class HMMStrategy(BaseStrategy):
     def _extract_yard(text: str) -> str:
         block = RegexUtils.extract_between(text, "Location", "Notice") or ""
         lines = [line.strip(" :") for line in block.splitlines() if line.strip()]
+
         filtered: List[str] = []
         for line in lines:
             upper = line.upper()
@@ -52,6 +54,8 @@ class HMMStrategy(BaseStrategy):
         pin = self._extract_pin(text, containers)
         yard = self._extract_yard(text)
 
+        port = PortExtractor.extract(text)
+
         records: List[Dict[str, str]] = []
         for container in containers:
             records.append(
@@ -62,4 +66,7 @@ class HMMStrategy(BaseStrategy):
                     "还柜场": yard,
                 }
             )
+        for record in records:
+            record.setdefault("Port of Discharge", port)
+            record.setdefault("\u505c\u9760\u7801\u5934", port)
         return records
